@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+п»їusing Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net.Http;
 using System.Net;
 
@@ -58,7 +58,7 @@ namespace SafeBoard_AutotestHomeTask
 
 
 
-		//Проверка соответствия установленного user-agent и возвращаемого user-agent из интернета
+		//РџСЂРѕРІРµСЂРєР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅРѕРіРѕ user-agent Рё РІРѕР·РІСЂР°С‰Р°РµРјРѕРіРѕ user-agent РёР· РёРЅС‚РµСЂРЅРµС‚Р°
 		[DataTestMethod]
 		[DataRow("KasperskyLab_SuperUserAgent")]
 		[DataRow("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36")]
@@ -73,7 +73,7 @@ namespace SafeBoard_AutotestHomeTask
 		}
 
 
-		//Проверка на фильтрацию некорректных user-agents хостингом
+		//РџСЂРѕРІРµСЂРєР° РЅР° С„РёР»СЊС‚СЂР°С†РёСЋ РЅРµРєРѕСЂСЂРµРєС‚РЅС‹С… user-agents С…РѕСЃС‚РёРЅРіРѕРј
 		[DataTestMethod]
 		//[DataRow(user-agent,isCorrect)]
 		[DataRow("KasperskyLab_SuperUserAgent", false)]

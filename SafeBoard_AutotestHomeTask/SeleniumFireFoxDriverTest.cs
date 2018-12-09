@@ -11,7 +11,7 @@ using OpenQA.Selenium.Remote;
 using System.Threading;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
-
+using System.Diagnostics;
 
 
 
@@ -28,12 +28,34 @@ namespace SafeBoard_AutotestHomeTask
 	}
 
 
-	//[Ignore]
-	[TestClass]
+	public static class ShellHelper
+	{
+		public static string Bash(this string cmd)
+		{
+			var escapedArgs = cmd.Replace("\"", "\\\"");
+
+			var process = new Process()
+			{
+				StartInfo = new ProcessStartInfo
+				{
+					FileName = "/bin/bash",
+					Arguments = $"-c \"{escapedArgs}\"",
+					RedirectStandardOutput = true,
+					UseShellExecute = false,
+					CreateNoWindow = true,
+				}
+			};
+			process.Start();
+			string result = process.StandardOutput.ReadToEnd();
+			process.WaitForExit();
+			return result;
+		}
+
+
+		//[Ignore]
+		[TestClass]
 	public class SeleniumFireFoxDriverTest
 	{
-		[DllImport("libc", SetLastError = true)]
-		private static extern int сhmod(string pathname, int mode);
 
 		public static string FireFoxDriversDirectory = "../../../../SeleniumFireFoxDrivers/";
 
@@ -72,7 +94,7 @@ namespace SafeBoard_AutotestHomeTask
 			
 			if (IsUnderLinux)
 			{
-				сhmod(FireFoxDriversDirectory + "geckodriver", 777);
+				$"chmod +x {FireFoxDriversDirectory}geckodriver".Bash();
 			}
 		}
 

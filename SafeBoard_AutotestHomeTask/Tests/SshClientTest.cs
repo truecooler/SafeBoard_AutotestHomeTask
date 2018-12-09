@@ -4,11 +4,10 @@ using System.Text;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-
-
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Renci.SshNet;
+
+using SafeBoard_AutotestHomeTask.Models;
 
 namespace SafeBoard_AutotestHomeTask
 {
@@ -19,18 +18,7 @@ namespace SafeBoard_AutotestHomeTask
 
 		public static string DataSetsDirectory = "../../../../TestDataSets/";
 
-		public class SshCredentials
-		{
-			public SshCredentials()
-			{
-				this.Host = "<enter_host>";
-				this.Login = "<enter_login>";
-				this.Password = "<enter_password>";
-			}
-			public string Host;
-			public string Login;
-			public string Password;
-		}
+		
 		public static SshCredentials _SshCredentials;
 
 		static int RandomNumber;

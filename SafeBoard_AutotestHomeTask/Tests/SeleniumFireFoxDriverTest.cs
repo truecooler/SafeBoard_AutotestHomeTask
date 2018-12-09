@@ -1,7 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Text;
 using System.Reflection;
 using System.IO;
 using OpenQA.Selenium;
@@ -10,74 +8,24 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 using System.Threading;
 using Newtonsoft.Json;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
+
+
+using SafeBoard_AutotestHomeTask.Extensions;
+using SafeBoard_AutotestHomeTask.Utils;
+using SafeBoard_AutotestHomeTask.Models;
 
 
 
 namespace SafeBoard_AutotestHomeTask
 {
-	
-	//comfortable feature to execute js
-	public static class JavaScriptExecutor
-	{
-		public static IJavaScriptExecutor Scripts(this IWebDriver driver)
-		{
-			return (IJavaScriptExecutor)driver;
-		}
-	}
 
-
-	public static class ShellHelper
-	{
-		public static string Bash(this string cmd)
-		{
-			var escapedArgs = cmd.Replace("\"", "\\\"");
-
-			var process = new Process()
-			{
-				StartInfo = new ProcessStartInfo
-				{
-					FileName = "/bin/bash",
-					Arguments = $"-c \"{escapedArgs}\"",
-					RedirectStandardOutput = true,
-					UseShellExecute = false,
-					CreateNoWindow = true,
-				}
-			};
-			process.Start();
-			string result = process.StandardOutput.ReadToEnd();
-			process.WaitForExit();
-			return result;
-		}
-	}
-
-		//[Ignore]
-		[TestClass]
+	//[Ignore]
+	[TestClass]
 	public class SeleniumFireFoxDriverTest
 	{
 
 		public static string FireFoxDriversDirectory = "../../../../SeleniumFireFoxDrivers/";
-
-		public static bool IsUnderLinux
-		{
-			get
-			{
-				int p = (int)Environment.OSVersion.Platform;
-				return (p == 4) || (p == 6) || (p == 128);
-			}
-		}
-
-		public class VkCredentials
-		{
-			public VkCredentials()
-			{
-				this.Login = "<enter_login>";
-				this.Password = "<enter_password>";
-			}
-			public string Login;
-			public string Password;
-		}
+		
 		public static VkCredentials _VkCredentials;
 
 		[ClassInitialize]
@@ -92,41 +40,13 @@ namespace SafeBoard_AutotestHomeTask
 			}
 			_VkCredentials = JsonConvert.DeserializeObject<VkCredentials>(File.ReadAllText(settingsFile));
 			
-			if (IsUnderLinux)
+			if (Helper.IsUnderLinux)
 			{
 				$"chmod +x {FireFoxDriversDirectory}geckodriver".Bash();
 			}
 		}
 
-		//bug in .net core. details: https://stackoverflow.com/questions/46836472/selenium-with-net-core-performance-impact-multiple-threads-in-iwebelement
-		public static void FixDriverCommandExecutionDelay(IWebDriver driver)
-		{
-			PropertyInfo commandExecutorProperty = typeof(RemoteWebDriver).GetProperty("CommandExecutor", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty);
-			ICommandExecutor commandExecutor = (ICommandExecutor)commandExecutorProperty.GetValue(driver);
-
-			FieldInfo remoteServerUriField = commandExecutor.GetType().GetField("remoteServerUri", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.SetField);
-
-			if (remoteServerUriField == null)
-			{
-				FieldInfo internalExecutorField = commandExecutor.GetType().GetField("internalExecutor", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
-				commandExecutor = (ICommandExecutor)internalExecutorField.GetValue(commandExecutor);
-				remoteServerUriField = commandExecutor.GetType().GetField("remoteServerUri", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.SetField);
-			}
-
-			if (remoteServerUriField != null)
-			{
-				string remoteServerUri = remoteServerUriField.GetValue(commandExecutor).ToString();
-
-				string localhostUriPrefix = "http://localhost";
-
-				if (remoteServerUri.StartsWith(localhostUriPrefix))
-				{
-					remoteServerUri = remoteServerUri.Replace(localhostUriPrefix, "http://127.0.0.1");
-
-					remoteServerUriField.SetValue(commandExecutor, new Uri(remoteServerUri));
-				}
-			}
-		}
+		
 
 
 		
@@ -138,7 +58,7 @@ namespace SafeBoard_AutotestHomeTask
 		{
 			using (IWebDriver driver = new FirefoxDriver(FireFoxDriversDirectory))
 			{
-				FixDriverCommandExecutionDelay(driver);
+				Helper.FixDriverCommandExecutionDelay(driver);
 				driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
 
 				driver.Url = "https://vk.com/";
@@ -170,7 +90,7 @@ namespace SafeBoard_AutotestHomeTask
 		{
 			using (var driver = new FirefoxDriver(FireFoxDriversDirectory))
 			{
-				FixDriverCommandExecutionDelay(driver);
+				Helper.FixDriverCommandExecutionDelay(driver);
 				driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
 
 				driver.Url = "https://vk.com/";
@@ -200,7 +120,7 @@ namespace SafeBoard_AutotestHomeTask
 		{
 			using (var driver = new FirefoxDriver(FireFoxDriversDirectory))
 			{
-				FixDriverCommandExecutionDelay(driver);
+				Helper.FixDriverCommandExecutionDelay(driver);
 				driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
 
 				driver.Url = "https://vk.com/";
@@ -227,7 +147,7 @@ namespace SafeBoard_AutotestHomeTask
 		{
 			using (var driver = new FirefoxDriver(FireFoxDriversDirectory))
 			{
-				FixDriverCommandExecutionDelay(driver);
+				Helper.FixDriverCommandExecutionDelay(driver);
 				driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
 
 				driver.Url = "https://vk.com/";

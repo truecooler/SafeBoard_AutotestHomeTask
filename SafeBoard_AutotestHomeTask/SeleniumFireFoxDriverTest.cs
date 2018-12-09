@@ -52,7 +52,6 @@ namespace SafeBoard_AutotestHomeTask
 		}
 	}
 
-
 		//[Ignore]
 		[TestClass]
 	public class SeleniumFireFoxDriverTest
@@ -152,20 +151,11 @@ namespace SafeBoard_AutotestHomeTask
 
 				var input = driver.FindElement(By.Id("post_field"));
 				
-				driver.Scripts().ExecuteScript("arguments[0].scrollIntoView()", input);
+				driver.Scripts().ExecuteScript("arguments[0].scrollIntoView()", input);//скроллим окно до элемента
 				input.SendKeys("умею быстро придумывать числа: " + new Random().Next(100000,9999999).ToString());//вводим текст в поле нового поста
 
-				//var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-				//wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("post_field"))).SendKeys("hello from KasperskyLab!");//вводим текст в поле нового поста
-				//driver.FindElement(By.Id("send_post")).Click();//отправляем пост на стену
-				//wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("send_post"))).Click();
-
 				var button = driver.FindElement(By.Id("send_post"));
-				driver.Scripts().ExecuteScript("arguments[0].click();", button);
-				//button.Click();
-
-
-				//отправляем пост на стену
+				driver.Scripts().ExecuteScript("arguments[0].click();", button);//отправляем пост на стену
 
 
 				Thread.Sleep(5000);
@@ -198,8 +188,7 @@ namespace SafeBoard_AutotestHomeTask
 				driver.FindElement(By.XPath("//*[starts-with(@id,'reply_field')]")).SendKeys("отличное фото");//набираем ему комментарий под фото
 				driver.FindElement(By.ClassName("addpost_button_wrap")).Click();//отправляем комментарий Евгению
 
-
-				System.Threading.Thread.Sleep(5000);
+				Thread.Sleep(5000);
 				driver.Close();
 			}
 		}
@@ -226,8 +215,7 @@ namespace SafeBoard_AutotestHomeTask
 				driver.FindElement(By.XPath("//*[starts-with(@id,'reply_field')]")).SendKeys("спасииибоооо");//набираем ему комментарий под фото
 				driver.FindElement(By.ClassName("addpost_button_wrap")).Click();//отправляем комментарий 
 
-
-				System.Threading.Thread.Sleep(5000);
+				Thread.Sleep(5000);
 				driver.Close();
 			}
 		}
@@ -262,6 +250,5 @@ namespace SafeBoard_AutotestHomeTask
 				driver.Close();
 			}
 		}
-
 	}
 }

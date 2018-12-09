@@ -16,8 +16,8 @@ namespace SafeBoard_AutotestHomeTask
 	[TestClass]
 	public class SshClientTest
 	{
-		
 
+		public static string DataSetsDirectory = "../../../../TestDataSets/";
 
 		public class SshCredentials
 		{
@@ -158,7 +158,7 @@ namespace SafeBoard_AutotestHomeTask
 				{
 					int expectedKasperskyWordsCount = 3;
 					SftpClient.Connect();
-					using (Stream fileStream = File.OpenRead("../../../../TestDataSets/VirusToKaspersky.txt"))
+					using (Stream fileStream = File.OpenRead(DataSetsDirectory + "VirusToKaspersky.txt"))
 					{
 						SftpClient.UploadFile(fileStream, "./VirusToKaspersky.txt", canOverride: true);
 					}
@@ -187,7 +187,7 @@ namespace SafeBoard_AutotestHomeTask
 				{
 					int expectedCommentsAndEmptryLinesCount = 0;
 					SftpClient.Connect();
-					using (Stream fileStream = File.OpenRead("../../../../TestDataSets/FileWithCode.txt"))
+					using (Stream fileStream = File.OpenRead(DataSetsDirectory + "FileWithCode.txt"))
 					{
 						SftpClient.UploadFile(fileStream, "./FileWithCode.txt", canOverride: true);
 					}
@@ -215,7 +215,7 @@ namespace SafeBoard_AutotestHomeTask
 				using (var SshClient = new SshClient(_SshCredentials.Host, _SshCredentials.Login, _SshCredentials.Password))
 				{
 					SftpClient.Connect();
-					using (Stream fileStream = File.OpenRead("../../../../TestDataSets/DataTable.txt"))
+					using (Stream fileStream = File.OpenRead(DataSetsDirectory + "DataTable.txt"))
 					{
 						SftpClient.UploadFile(fileStream, "./DataTable.txt", canOverride: true);
 					}
@@ -244,7 +244,7 @@ namespace SafeBoard_AutotestHomeTask
 				{
 					int expectedTotalManagersCount = 3;
 					SftpClient.Connect();
-					using (Stream fileStream = File.OpenRead("../../../../TestDataSets/DataTable.txt"))
+					using (Stream fileStream = File.OpenRead(DataSetsDirectory + "DataTable.txt"))
 					{
 						SftpClient.UploadFile(fileStream, "./DataTable.txt", canOverride: true);
 					}
@@ -269,7 +269,7 @@ namespace SafeBoard_AutotestHomeTask
 			using (var SftpClient = new SftpClient(_SshCredentials.Host, _SshCredentials.Login, _SshCredentials.Password))
 			{
 				SftpClient.Connect();
-				using (Stream fileStream = File.OpenRead("../../../../TestDataSets/sftp_test.txt"))
+				using (Stream fileStream = File.OpenRead(DataSetsDirectory + "sftp_test.txt"))
 				{
 					SftpClient.UploadFile(fileStream, "./sftp_test.txt", canOverride: true);
 				}

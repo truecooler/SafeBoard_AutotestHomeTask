@@ -10,10 +10,14 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 using System.Threading;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
+
+
+
 
 namespace SafeBoard_AutotestHomeTask
 {
-
+	
 	//comfortable feature to execute js
 	public static class JavaScriptExecutor
 	{
@@ -28,7 +32,20 @@ namespace SafeBoard_AutotestHomeTask
 	[TestClass]
 	public class SeleniumFireFoxDriverTest
 	{
-		public static string FireFoxDriversDirectory = "../../../../SeleniumFireFoxDrivers";
+		[DllImport("libc", SetLastError = true)]
+		private static extern int Chmod(string pathname, int mode);
+
+		public static string FireFoxDriversDirectory = "../../../../SeleniumFireFoxDrivers/";
+
+		public static bool IsUnderLinux
+		{
+			get
+			{
+				int p = (int)Environment.OSVersion.Platform;
+				return (p == 4) || (p == 6) || (p == 128);
+			}
+		}
+
 		public class VkCredentials
 		{
 			public VkCredentials()
@@ -44,6 +61,7 @@ namespace SafeBoard_AutotestHomeTask
 		[ClassInitialize]
 		public static void Init(TestContext context)
 		{
+
 			string settingsFile = "./VkCredentials.json";
 			if (!File.Exists(settingsFile))
 			{
@@ -52,6 +70,10 @@ namespace SafeBoard_AutotestHomeTask
 			}
 			_VkCredentials = JsonConvert.DeserializeObject<VkCredentials>(File.ReadAllText(settingsFile));
 			
+			if (IsUnderLinux)
+			{
+				Chmod(FireFoxDriversDirectory + "geckodriver", 777);
+			}
 		}
 
 		//bug in .net core. details: https://stackoverflow.com/questions/46836472/selenium-with-net-core-performance-impact-multiple-threads-in-iwebelement

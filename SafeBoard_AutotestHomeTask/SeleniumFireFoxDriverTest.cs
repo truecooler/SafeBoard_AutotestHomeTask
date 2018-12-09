@@ -33,7 +33,7 @@ namespace SafeBoard_AutotestHomeTask
 	public class SeleniumFireFoxDriverTest
 	{
 		[DllImport("libc", SetLastError = true)]
-		private static extern int Chmod(string pathname, int mode);
+		private static extern int сhmod(string pathname, int mode);
 
 		public static string FireFoxDriversDirectory = "../../../../SeleniumFireFoxDrivers/";
 

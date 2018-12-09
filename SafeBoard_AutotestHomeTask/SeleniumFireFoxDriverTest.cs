@@ -72,7 +72,7 @@ namespace SafeBoard_AutotestHomeTask
 			
 			if (IsUnderLinux)
 			{
-				Chmod(FireFoxDriversDirectory + "geckodriver", 777);
+				chmod(FireFoxDriversDirectory + "geckodriver", 777);
 			}
 		}
 

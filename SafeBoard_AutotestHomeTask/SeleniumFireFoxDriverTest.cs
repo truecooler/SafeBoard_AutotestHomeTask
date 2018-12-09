@@ -50,6 +50,7 @@ namespace SafeBoard_AutotestHomeTask
 			process.WaitForExit();
 			return result;
 		}
+	}
 
 
 		//[Ignore]

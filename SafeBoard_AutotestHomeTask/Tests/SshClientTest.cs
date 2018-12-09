@@ -15,10 +15,8 @@ namespace SafeBoard_AutotestHomeTask
 	[TestClass]
 	public class SshClientTest
 	{
-
 		public static string DataSetsDirectory = "../../../../TestDataSets/";
 
-		
 		public static SshCredentials _SshCredentials;
 
 		static int RandomNumber;
@@ -267,8 +265,6 @@ namespace SafeBoard_AutotestHomeTask
 				Assert.IsTrue(files.Any(x => x.Name == "sftp_test.txt"));
 			}
 		}
-
-
 
 
 		[ClassCleanup]

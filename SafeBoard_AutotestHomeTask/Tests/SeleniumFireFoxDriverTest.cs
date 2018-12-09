@@ -14,8 +14,6 @@ using SafeBoard_AutotestHomeTask.Extensions;
 using SafeBoard_AutotestHomeTask.Utils;
 using SafeBoard_AutotestHomeTask.Models;
 
-
-
 namespace SafeBoard_AutotestHomeTask
 {
 
@@ -23,7 +21,6 @@ namespace SafeBoard_AutotestHomeTask
 	[TestClass]
 	public class SeleniumFireFoxDriverTest
 	{
-
 		public static string FireFoxDriversDirectory = "../../../../SeleniumFireFoxDrivers/";
 		
 		public static VkCredentials _VkCredentials;
@@ -45,11 +42,6 @@ namespace SafeBoard_AutotestHomeTask
 				$"chmod +x {FireFoxDriversDirectory}geckodriver".Bash();
 			}
 		}
-
-		
-
-
-		
 
 		//[Ignore]
 		[TestMethod]
